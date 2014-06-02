@@ -1,0 +1,47 @@
+.grid_1,.grid_2,.grid_3,.grid_4,.grid_5,.grid_6,.grid_7,.grid_8,.grid_9,.grid_10,.grid_11,.grid_12,.grid_13,.grid_14,.grid_15,.grid_16,.grid_17,.grid_18,.grid_19,.grid_20,.grid_21,.grid_22,.grid_23,.grid_24{
+  display: inline-block;
+  float: left;   
+}
+
+.container(@cols: 6,@width){
+  width:@width;
+  display: table;
+  
+.loopingClass (@index) when (@index > 0) {
+  transition:all 500ms ease;  
+   
+  .setMargin() when (@width >=768px){
+    @margin: 5px;
+  }
+  .setMargin() when (@width < 768px){       
+    @margin: @width * 0.01;
+  }
+  
+  .setMargin;
+  
+  .grid_@{index} when (@width >= 420px){
+    margin:@margin @margin;     
+    width: ((@width * @index/@cols) - @margin*2); 
+  }     
+  
+  .grid_@{index} when (@width <= 420px){
+    margin:@margin @margin;     
+    width: (@width - @margin*2);     
+  }
+
+  .double when (@width <= 768px){    
+    width: ((@width * 0.5) - @margin*2);
+    padding:0;
+  }
+  
+  .double when (@width <= 420px){    
+    width: (@width - @margin*2); 
+    padding:0;
+  }  
+  
+	.loopingClass(@index - 1);
+}
+
+.loopingClass (0) {}
+.loopingClass (@cols);    
+}

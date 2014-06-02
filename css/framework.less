@@ -1,0 +1,63 @@
+@import 'skeleton.less';
+
+.nav{
+  position:fixed;
+  left:0;
+  top:0;
+  width:215px;
+  height:100%;
+  display:inline;
+  float:left;
+  background-color: #ffd42a;
+}
+.main{
+  position:relative;
+  width:auto;
+  padding-left: 215px;
+  display:block;
+  margin:0 auto;
+  clear:both;
+  transition:all 500ms ease;
+}
+
+.container_12{
+  .container(12,1100px);
+  margin:0 auto;          
+}
+
+
+
+@media only screen and (max-width: 1400px) {
+  .container_12{
+    .container(12,950px);
+  }
+}
+@media only screen and (max-width: 1200px) {
+  .container_12{
+    .container(12,768px);
+  }
+}
+@media only screen and (max-width: 1000px) {
+  .nav{
+    display:none; 
+  }
+  .main{
+    padding:0;
+    transition:all 500ms ease;
+  }
+}
+@media only screen and (max-width: 768px) {
+  .container_12{
+    .container(12,600px);
+  }
+}
+@media only screen and (max-width: 600px) {
+  .container_12{
+    .container(12,420px);
+  }
+}
+@media only screen and (max-width: 420px) {
+  .container_12{
+    .container(12,320px);
+  }
+}
