@@ -1,9 +1,9 @@
-body{
+body {
   transform: scale(0.5);
-  -webkit-transform: scale(0.5); 
+  -webkit-transform: scale(0.5);
   transform-origin: 0;
   -webkit-transform-origin: 0;
-  overflow-y:hidden;    
+  overflow-y: hidden;
 }
 p {
   width: 90%;
@@ -19,51 +19,44 @@ img {
   max-width: 100%;
   max-height: 100%;
 }
-
-#container{
-  position:relative;
-  left:0;
-  top:0;
+#container {
+  position: relative;
+  left: 0;
+  top: 0;
 }
-
-#minimize{
-  position:absolute;
+#minimize {
+  position: absolute;
   z-index: 20;
-  display:none;
+  display: none;
 }
-
-.screen{
+.screen {
   /*width:960px;
   height:640px; */
-  background-color:cyan;
+  background-color: cyan;
   /*background-size:100% 100%;*/
-  background-repeat:no-repeat;
-  background-position:center;   
-  position:absolute;
-  display:block;
-  overflow-y:scroll;
+  background-repeat: no-repeat;
+  background-position: center;
+  position: absolute;
+  display: block;
+  overflow-y: scroll;
 }
-
-#scr1{
-  background-image:url('http://lorempixel.com/1580/1650/');
-  top:0;
-  left:0;
+#scr1 {
+  background-image: url('http://lorempixel.com/1700/1650/');
+  top: 0;
+  left: 0;
 }
-
-#scr2{
-  background-image:url('http://lorempixel.com/1680/1650/');
-  top:0;
-  left:960px;
+#scr2 {
+  background-image: url('http://lorempixel.com/1700/1550/');
+  top: 0;
+  left: 960px;
 }
-
-#scr3{
-  background-image:url('http://lorempixel.com/1380/1650/');
-  top:640px;
-  left:0px;
+#scr3 {
+  background-image: url('http://lorempixel.com/1700/1450/');
+  top: 640px;
+  left: 0px;
 }
-
-#scr4{
-  background-image:url('http://lorempixel.com/1480/1650/');
-  top:640px;
-  left:960px;
+#scr4 {
+  background-image: url('http://lorempixel.com/1700/1350/');
+  top: 640px;
+  left: 960px;
 }

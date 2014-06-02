@@ -1,4 +1,16 @@
 jQuery(function(){
+   
+$.fn.click = function(listener) {
+
+    return this.each(function() {
+
+       var $this = $( this );
+
+       $this.on('vclick', listener);
+
+    });
+
+};
 
 function initialize(){
   var sWidth = $(window).width();
@@ -24,10 +36,17 @@ function initialize(){
   });
   $(window).load(function() {
     initialize();
+    
+    setTimeout(function(){
+      $('body').stop().transition({ scale: 1,duration: 2000, easing:'easeOutExpo' });
+      $('#minimize').fadeIn();
+    },1000);
+    
     $('.screen').click(function(){      
       $('#container').stop().animate({left: -$(this).data('x')+'px',top: -$(this).data('y')+'px'});//,function(){
         $('#minimize').fadeIn();
-        $('body').stop().transition({ scale: 1 });        
+        $('body').stop().transition({ scale: 1 });
+                
       //});
     });
     $('#minimize img').click(function(){
