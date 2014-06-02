@@ -1,15 +1,31 @@
+/* ---------------------------- MAIN GRIDS ---------------------------- */
 .grid_1,.grid_2,.grid_3,.grid_4,.grid_5,.grid_6,.grid_7,.grid_8,.grid_9,.grid_10,.grid_11,.grid_12,.grid_13,.grid_14,.grid_15,.grid_16,.grid_17,.grid_18,.grid_19,.grid_20,.grid_21,.grid_22,.grid_23,.grid_24{
   display: inline-block;
   float: left;   
 }
 
+.push_1, .pull_1,
+.push_2, .pull_2,
+.push_3, .pull_3,
+.push_4, .pull_4,
+.push_5, .pull_5,
+.push_6, .pull_6,
+.push_7, .pull_7,
+.push_8, .pull_8,
+.push_9, .pull_9,
+.push_10, .pull_10,
+.push_11, .pull_11,
+.push_12, .pull_12,
+.push_13, .pull_13,
+.push_14, .pull_14,
+.push_15, .pull_15 {
+  position: relative;
+}
+
 .container(@cols: 6,@width){
   width:@width;
   display: table;
-  
-.loopingClass (@index) when (@index > 0) {
-  transition:all 500ms ease;  
-   
+
   .setMargin() when (@width >=768px){
     @margin: 5px;
   }
@@ -18,30 +34,59 @@
   }
   
   .setMargin;
-  
-  .grid_@{index} when (@width >= 420px){
-    margin:@margin @margin;     
-    width: ((@width * @index/@cols) - @margin*2); 
-  }     
-  
-  .grid_@{index} when (@width <= 420px){
-    margin:@margin @margin;     
-    width: (@width - @margin*2);     
-  }
 
-  .double when (@width <= 768px){    
-    width: ((@width * 0.5) - @margin*2);
-    padding:0;
+  
+.loopingClass (@index) when (@index > 0) {
+  transition:all 500ms ease;  
+  
+  .grid_@{index}{  
+    margin:@margin @margin;
+    width: ((@width * @index/@cols) - @margin*2); 
+  }   
+  
+  .prefix_@{index}{  
+    padding-left: (@width * @index/@cols); 
   }
   
-  .double when (@width <= 420px){    
-    width: (@width - @margin*2); 
-    padding:0;
+  .suffix_@{index}{  
+    padding-right: (@width * @index/@cols); 
   }  
+  
+  .push_@{index}{  
+    left: (@width * @index/@cols); 
+  }
+  
+  .pull_@{index}{  
+    left: -(@width * @index/@cols); 
+  }   
   
 	.loopingClass(@index - 1);
 }
 
 .loopingClass (0) {}
 .loopingClass (@cols);    
+}
+
+.containerOneColumn(@width){
+  width:@width;
+  display: table;
+   
+  .grid_1,.grid_2,.grid_3,.grid_4,.grid_5,.grid_6,.grid_7,.grid_8,.grid_9,.grid_10,.grid_11,.grid_12,.grid_13,.grid_14,.grid_15,.grid_16,.grid_17,.grid_18,.grid_19,.grid_20,.grid_21,.grid_22,.grid_23,.grid_24{
+    @margin: @width * 0.01;
+    margin:@margin @margin;     
+    width: (@width - @margin*2);         
+  }
+  
+  .prefix_1,.prefix_2,.prefix_3,.prefix_4,.prefix_5,.prefix_6,.prefix_7,.prefix_8,.prefix_9,.prefix_10,.prefix_11,.prefix_12,.prefix_13,.prefix_14,.prefix_15,.prefix_16,.prefix_17,.prefix_18,.prefix_19,.prefix_20,.prefix_21,.prefix_22,.prefix_23,.prefix_24{
+    padding-left:0;  
+  } 
+  
+  .suffix_1,.suffix_2,.suffix_3,.suffix_4,.suffix_5,.suffix_6,.suffix_7,.suffix_8,.suffix_9,.suffix_10,.suffix_11,.suffix_12,.suffix_13,.suffix_14,.suffix_15,.suffix_16,.suffix_17,.suffix_18,.suffix_19,.suffix_20,.suffix_21,.suffix_22,.suffix_23,.suffix_24{
+    padding-right:0;  
+  }
+  
+  .push_1,.push_2,.push_3,.push_4,.push_5,.push_6,.push_7,.push_8,.push_9,.push_10,.push_11,.push_12,.push_13,.push_14,.push_15,.push_16,.push_17,.push_18,.push_19,.push_20,.push_21,.push_22,.push_23,.push_24,
+  .pull_1,.pull_2,.pull_3,.pull_4,.pull_5,.pull_6,.pull_7,.pull_8,.pull_9,.pull_10,.pull_11,.pull_12,.pull_13,.pull_14,.pull_15,.pull_16,.pull_17,.pull_18,.pull_19,.pull_20,.pull_21,.pull_22,.pull_23,.pull_24{
+    left:0;  
+  }      
 }

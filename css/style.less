@@ -1,16 +1,17 @@
 body{
-  transform: scale(0.5);
+  /*transform: scale(0.5);
   -webkit-transform: scale(0.5); 
   transform-origin: 0;
-  -webkit-transform-origin: 0;
-  overflow-y:hidden;    
+  -webkit-transform-origin: 0; */
+  overflow:hidden;
+  overflow-x:hidden;     
 }
 p {
   width: 90%;
   min-height: 100px;
   padding: 5px 5%;
   text-align: justify;
-  background-color: #555;
+  background-color: rgba(255,255,255,0.5);
   display: inline-block;
   word-wrap: break-word;
 }
@@ -20,7 +21,7 @@ img {
   max-height: 100%;
 }
 
-#container{
+#container{  
   position:relative;
   left:0;
   top:0;
@@ -41,7 +42,7 @@ img {
   background-position:center;   
   position:absolute;
   display:block;
-  overflow-y:scroll;
+  overflow:hidden;
 }
 
 #scr1{

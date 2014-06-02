@@ -20,44 +20,114 @@
   transition:all 500ms ease;
 }
 
+.content{
+  width:1100px;
+  height:auto;
+  max-height:100%;
+  overflow:hidden;
+  margin:0 auto; 
+}
+
 .container_12{
   .container(12,1100px);
   margin:0 auto;          
 }
 
-
-
 @media only screen and (max-width: 1400px) {
+  .content{
+    width:950px;
+  }
   .container_12{
     .container(12,950px);
   }
 }
 @media only screen and (max-width: 1200px) {
+  .content{
+    width:768px;
+  }
   .container_12{
     .container(12,768px);
   }
 }
-@media only screen and (max-width: 1000px) {
-  .nav{
-    display:none; 
-  }
-  .main{
-    padding:0;
-    transition:all 500ms ease;
-  }
-}
 @media only screen and (max-width: 768px) {
+  .content{
+    width:600px;
+  }
   .container_12{
     .container(12,600px);
   }
 }
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 600px) {  
+  .content{
+    width:420px;
+  } 
   .container_12{
-    .container(12,420px);
+    .containerOneColumn(420px);
   }
 }
 @media only screen and (max-width: 420px) {
-  .container_12{
-    .container(12,320px);
+  .content{
+    width:320px;
   }
+  .container_12{
+    .containerOneColumn(320px);
+  }
+}
+
+
+/*----------------------------------------------------------------------------------------------------*/
+
+.alpha {
+  margin-left: 0 !important;
+}
+
+.omega {
+  margin-right: 0 !important;
+}
+
+/* http://sonspring.com/journal/clearing-floats */
+
+.clear {
+  clear: both;
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  width: 0;
+  height: 0;
+}
+
+/* http://www.yuiblog.com/blog/2010/09/27/clearfix-reloaded-overflowhidden-demystified */
+
+.clearfix:before,
+.clearfix:after,
+.container_12:before,
+.container_12:after,
+.container_16:before,
+.container_16:after {
+  content: '.';
+  display: block;
+  overflow: hidden;
+  visibility: hidden;
+  font-size: 0;
+  line-height: 0;
+  width: 0;
+  height: 0;
+}
+
+.clearfix:after,
+.container_12:after,
+.container_16:after {
+  clear: both;
+}
+
+/*
+  The following zoom:1 rule is specifically for IE6 + IE7.
+  Move to separate stylesheet if invalid CSS is a problem.
+*/
+
+.clearfix,
+.container_12,
+.container_16,
+.container_24 {
+  zoom: 1;
 }
