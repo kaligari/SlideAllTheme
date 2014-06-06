@@ -17,7 +17,7 @@ function initialize(){
   $('#container .row').each(function(i){
     $(this).children('.screen').each(function(j){
       $(this).data('x',sWidth*j).data('y',sHeight*i).css({left:sWidth*j+'px',top:sHeight*i+'px'});      
-      console.log( j + ": " + $(this).attr('class') + " X: " + sWidth*j + " Y: " + sHeight*i);  
+      //console.log( j + ": " + $(this).attr('class') + " X: " + sWidth*j + " Y: " + sHeight*i);  
     });
   });
   if(sWidth>=sHeight)
@@ -35,10 +35,15 @@ function initialize(){
     $('#minimize img').click(function(){
         $('#container').stop().animate({left: '0px',top: '0px'});        
     });
-    function changeTo(target,current){
+    function changeTo(target,current){      
+      
       $('#container').stop().animate({left: -target.data('x')+'px'},function(){
         $('#container').stop().animate({top: -target.data('y')+'px'});
       });
+      
+      current.find('.grid_6').fadeOut();    
+      target.find('.grid_6').fadeIn();
+      
       current.removeClass('active');
       target.addClass('active');
     }
