@@ -38,11 +38,13 @@ function initialize(){
     function changeTo(target,current){      
       
       $('#container').stop().animate({left: -target.data('x')+'px'},function(){
-        $('#container').stop().animate({top: -target.data('y')+'px'});
-      });
-      
-      current.find('.grid_6').fadeOut();    
-      target.find('.grid_6').fadeIn();
+        $('#container').stop().animate({top: -target.data('y')+'px'},function(){
+          //$('.container_12').fadeIn();
+          //target.children('.container_12 div').each(function(){
+            //$(this).fadeIn(3000);
+          //});
+        });
+      });                
       
       current.removeClass('active');
       target.addClass('active');
