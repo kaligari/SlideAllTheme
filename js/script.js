@@ -19,14 +19,23 @@ function initialize(){
   $('.screen').width(sWidth)
   $('.screen').height(sHeight);
 
+  $('#container .row').each(function(i){
+    $(this).children('.screen').each(function(j){
+      $(this).data('x',sWidth*j).data('y',sHeight*i).css({left:sWidth*j+'px',top:sHeight*i+'px'});      
+      console.log( j + ": " + $(this).attr('class') + " X: " + sWidth*j + " Y: " + sHeight*i);  
+    });
+  });
+     /*
+
   $('#scr1').data('x',0).data('y',0);
   $('#scr2').data('x',sWidth).data('y',0);
   $('#scr3').data('x',0).data('y',sHeight);
   $('#scr4').data('x',sWidth).data('y',sHeight);  
-  
+       */
+  /*
   $('#scr2,#scr4').css({left:sWidth+'px'});
   $('#scr3,#scr4').css({top:sHeight+'px'});
-  
+    */
   $('#minimize').css({top:sWidth*0.02+'px',left:sWidth*0.93+'px'});
   $('#minimize img').width(sWidth*0.05+'px');
 }
@@ -56,41 +65,61 @@ function initialize(){
         //$('body').stop().transition({ scale: 0.5 });              
       //});
     });
+    function changeTo(target){
+      $('#container').stop().animate({left: -target.data('x')+'px'},function(){
+        $('#container').stop().animate({top: -target.data('y')+'px'});
+      });
+      $(this).removeClass('active');
+      target.addClass('active');
+    }
+    
     $('.screen').swipe({
         swipe:function(event, direction, distance, duration, fingerCount) {
           switch(direction){
             case 'left':
-              var next = $(this).data('right');
-              if(next){
-                $('#container').stop().animate({left: -$('#'+next).data('x')+'px',top: -$('#'+next).data('y')+'px'});
-                $(this).removeClass('active');
-                $('#'+next).addClass('active');
-              }  
+              target = this.next();                              
+              if(target.length != 0 )                 
+                changeTo(target);  
+              else {
+                target = this.parent().next().children().first();
+                if(target.length != 0 )                 
+                  changeTo(target); 
+                else {
+                  changeTo($('#container .row').first().children().first());
+                }
+              }
             break;
             case 'right':
-              var next = $(this).data('left');
-              if(next){
-                $('#container').stop().animate({left: -$('#'+next).data('x')+'px',top: -$('#'+next).data('y')+'px'});
-                $(this).removeClass('active');
-                $('#'+next).addClass('active');
-              }  
+              target = this.prev();   
+              if(target.length != 0 ){
+                changeTo(target);  
+              } else {
+                target = this.parent().prev().children().last();
+                if(target.length != 0 )                 
+                  changeTo(target); 
+                else {
+                  changeTo($('#container .row').last().children().last());
+                }
+              }
+            break;
+            case 'up':              
+              target = this.parent().next().children().first();             
+              if(target.length != 0 ){                 
+                changeTo(target);
+              } else {                
+                target = $('#container .row').first().children().first(); 
+                changeTo(target);
+              } 
             break;
             case 'down':
-              var next = $(this).data('up');
-              if(next){
-                $('#container').stop().animate({left: -$('#'+next).data('x')+'px',top: -$('#'+next).data('y')+'px'});
-                $(this).removeClass('active');
-                $('#'+next).addClass('active');
-              }  
-            break;
-            case 'up':
-              var next = $(this).data('down');
-              if(next){
-                $('#container').stop().animate({left: -$('#'+next).data('x')+'px',top: -$('#'+next).data('y')+'px'});
-                $(this).removeClass('active');
-                $('#'+next).addClass('active');
-              }  
-            break;
+              target = this.parent().prev().children().first();                              
+              if(target.length != 0 ){                 
+                changeTo(target);
+              } else {
+                target = $('#container .row').last().children().first(); 
+                changeTo(target);                                       
+              }   
+            break;            
           }
         }
       });       

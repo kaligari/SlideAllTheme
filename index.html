@@ -14,12 +14,22 @@
 <script type="text/javascript" src="js/script.js"></script>
 </head>
 <body>
-<div id="container">
+<div id="container" oncontextmenu="return false;">
   <!-- <div id="minimize"><img src="img/maximize.png" alt="" /></div> -->
-  <div class="screen" id="scr1" data-right="scr2" data-down="scr3"></div>
-  <div class="screen" id="scr2" data-left="scr1" data-down="scr4" data-right="scr3"></div>
-  <div class="screen" id="scr3" data-right="scr4" data-up="scr1"></div>
-  <div class="screen" id="scr4" data-left="scr3" data-up="scr2" data-right="scr1"></div>
+  <div class="row" id="row1">
+    <div class="screen scr1" id="scr1"></div>
+    <div class="screen scr2" id="scr2"></div>
+    <div class="screen scr3" id="scr3"></div>
+  </div>
+  <div class="row" id="row2">
+    <div class="screen scr1" id="scr4"></div>
+    <div class="screen scr2" id="scr5"></div>
+  </div>
+  <div class="row" id="row3">
+    <div class="screen scr1" id="scr6"></div>
+    <div class="screen scr2" id="scr7"></div>
+    <div class="screen scr2" id="scr8"></div>
+  </div>
 </div>
 </body>
 </html>
