@@ -1,4 +1,11 @@
 jQuery(function(){
+
+var horizontalAtEnd     = 'review';//'wrap','review','stop';
+var horizontalEasing    = 'easeOutCubic'; 
+var horizontalDuration  = 500;
+var verticalAtEnd       = 'stop';//'wrap','stop' 
+var verticalEasing      = 'easeOutQuint';
+var verticalDuration    = 1000;
    
 $.fn.click = function(listener) {
     return this.each(function() {
@@ -35,16 +42,23 @@ function initialize(){
     $('#minimize img').click(function(){
         $('#container').stop().animate({left: '0px',top: '0px'});        
     });
-    function changeTo(target,current){      
+    function changeTo(target,current){            
+      $('#container').stop().animate({left: -target.data('x')+'px'},horizontalDuration,horizontalEasing,function(){
+        $('#container').stop().animate({top: -target.data('y')+'px'},verticalDuration,verticalEasing);
+      }); 
+    
+      current.removeClass('active');
+      target.addClass('active');
       
-      $('#container').stop().animate({left: -target.data('x')+'px'},function(){
-        $('#container').stop().animate({top: -target.data('y')+'px'},function(){
-          //$('.container_12').fadeIn();
-          //target.children('.container_12 div').each(function(){
-            //$(this).fadeIn(3000);
-          //});
-        });
-      });                
+    }
+    
+    function changeToDesc(target,current){            
+      $('#container').stop().animate({top: -target.data('y')+'px'},verticalDuration,verticalEasing,function(){
+        $('#container').stop().animate({left: -target.data('x')+'px'},horizontalDuration,horizontalEasing);
+      });
+      
+      //current.find('.grid_6').fadeOut();    
+      //target.find('.grid_6').fadeIn();
       
       current.removeClass('active');
       target.addClass('active');
@@ -58,11 +72,22 @@ function initialize(){
               if(target.length != 0 )                 
                 changeTo(target,$(this));  
               else {
-                target = this.parent().next().children().first();
-                if(target.length != 0 )                 
-                  changeTo(target,$(this)); 
-                else {
-                  changeTo($('#container .row').first().children().first(),$(this));
+                switch(horizontalAtEnd){
+                  case 'stop':
+                  break;
+                  case 'review':                  
+                    target = this.parent().next().children().first();
+                    if(target.length != 0 )                 
+                      changeTo(target,$(this)); 
+                    else {
+                      changeTo($('#container .row').first().children().first(),$(this));
+                    }
+                  break;
+                  case 'wrap':
+                    target = this.parent().first().children().first();
+                    console.log(target);             
+                    changeTo(target,$(this));
+                  break;
                 }
               }
             break;
@@ -71,21 +96,34 @@ function initialize(){
               if(target.length != 0 ){
                 changeTo(target,$(this));  
               } else {
-                target = this.parent().prev().children().last();
-                if(target.length != 0 )                 
-                  changeTo(target,$(this)); 
-                else {
-                  changeTo($('#container .row').last().children().last(),$(this));
-                }
+                switch(horizontalAtEnd){
+                  case 'stop':
+                  break;
+                  case 'review':
+                    target = this.parent().prev().children().last();
+                    if(target.length != 0 )                 
+                      changeToDesc(target,$(this)); 
+                    else {
+                      changeToDesc($('#container .row').last().children().last(),$(this));
+                    }
+                  break;
+                  case 'wrap':
+                    target = this.parent().first().children().last();
+                    console.log(target);             
+                    changeTo(target,$(this));
+                  break;
+                }          
               }
             break;
             case 'up':              
               target = this.parent().next().children().first();             
               if(target.length != 0 ){                 
                 changeTo(target,$(this));
-              } else {                
-                target = $('#container .row').first().children().first(); 
-                changeTo(target,$(this));
+              } else {
+                if(verticalAtEnd=='wrap'){                
+                  target = $('#container .row').first().children().first(); 
+                  changeTo(target,$(this));
+                }
               } 
             break;
             case 'down':
@@ -93,8 +131,10 @@ function initialize(){
               if(target.length != 0 ){                 
                 changeTo(target,$(this));
               } else {
-                target = $('#container .row').last().children().first(); 
-                changeTo(target,$(this));                                       
+                if(verticalAtEnd=='wrap'){
+                  target = $('#container .row').last().children().first(); 
+                  changeTo(target,$(this));
+                }                                       
               }   
             break;            
           }
