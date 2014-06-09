@@ -20,6 +20,18 @@ img {
   max-width: 100%;
   max-height: 100%;
 }
+.anim_left {
+  float: left;
+  display: none;
+  z-index: 2000;
+}
+.anim_right {
+  float: right;
+  display: none;
+}
+.fadeIn {
+  display: none;
+}
 #container {
   position: relative;
   left: 0;

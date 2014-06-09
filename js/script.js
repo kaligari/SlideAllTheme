@@ -6,6 +6,10 @@ var horizontalDuration  = 500;
 var verticalAtEnd       = 'stop';//'wrap','stop' 
 var verticalEasing      = 'easeOutQuint';
 var verticalDuration    = 1000;
+
+var fadeInDuration      = 450;
+var fadeInSpeed         = 1000;
+var slideInEase         = 'easeInOutQuint';
    
 $.fn.click = function(listener) {
     return this.each(function() {
@@ -42,26 +46,49 @@ function initialize(){
     $('#minimize img').click(function(){
         $('#container').stop().animate({left: '0px',top: '0px'});        
     });
-    function changeTo(target,current){            
-      $('#container').stop().animate({left: -target.data('x')+'px'},horizontalDuration,horizontalEasing,function(){
-        $('#container').stop().animate({top: -target.data('y')+'px'},verticalDuration,verticalEasing);
-      }); 
-    
+    function changeTo(target,current){
+      hideImages();
       current.removeClass('active');
       target.addClass('active');
-      
+                  
+      $('#container').stop().animate({left: -target.data('x')+'px'},horizontalDuration,horizontalEasing,function(){
+        $('#container').stop().animate({top: -target.data('y')+'px'},verticalDuration,verticalEasing,function(){
+          showImages();
+        });
+      });             
     }
     
-    function changeToDesc(target,current){            
+    function changeToDesc(target,current){
+      hideImages();
+      current.removeClass('active');
+      target.addClass('active');
+                  
       $('#container').stop().animate({top: -target.data('y')+'px'},verticalDuration,verticalEasing,function(){
-        $('#container').stop().animate({left: -target.data('x')+'px'},horizontalDuration,horizontalEasing);
+        $('#container').stop().animate({left: -target.data('x')+'px'},horizontalDuration,horizontalEasing,function(){
+          showImages();
+        });
       });
       
       //current.find('.grid_6').fadeOut();    
       //target.find('.grid_6').fadeIn();
       
-      current.removeClass('active');
-      target.addClass('active');
+      //current.removeClass('active');
+      //target.addClass('active');            
+    }
+    
+    function hideImages(){
+      $('.active img, .fadeIn').fadeOut();
+    }
+        
+    function showImages(){
+      var numEl = $('.active .fadeIn').length;
+      console.log(numEl);
+      $('.active .fadeIn').each(function(index){
+        $(this).delay(fadeInDuration*index).fadeIn(fadeInSpeed);
+        console.log(index); 
+        $('.active .anim_left').delay(fadeInDuration*numEl).show('slide',{direction:'left',mode:'show',easing:slideInEase},fadeInSpeed);
+        $('.active .anim_right').delay(fadeInDuration*numEl).show('slide',{direction:'right',mode:'show',easing:slideInEase},fadeInSpeed);                      
+      });      
     }
     
     $('.screen').swipe({
