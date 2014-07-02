@@ -7,7 +7,7 @@ var verticalAtEnd       = 'stop';//'wrap','stop'
 var verticalEasing      = 'easeOutQuint';
 var verticalDuration    = 1000;
 
-var fadeInDuration      = 450;
+var fadeInDuration      = 350;
 var fadeInSpeed         = 1000;
 var slideInEase         = 'easeInOutQuint';
    
@@ -27,8 +27,7 @@ function initialize(){
 
   $('#container .row').each(function(i){
     $(this).children('.screen').each(function(j){
-      $(this).data('x',sWidth*j).data('y',sHeight*i).css({left:sWidth*j+'px',top:sHeight*i+'px'});      
-      //console.log( j + ": " + $(this).attr('class') + " X: " + sWidth*j + " Y: " + sHeight*i);  
+      $(this).data('x',sWidth*j).data('y',sHeight*i).css({left:sWidth*j+'px',top:sHeight*i+'px'});        
     });
   });
   if(sWidth>=sHeight)
@@ -43,9 +42,8 @@ function initialize(){
   });
   $(window).load(function() {
     initialize();
-    $('#minimize img').click(function(){
-        $('#container').stop().animate({left: '0px',top: '0px'});        
-    });
+    showImages();
+
     function changeTo(target,current){
       hideImages();
       current.removeClass('active');
@@ -67,102 +65,117 @@ function initialize(){
         $('#container').stop().animate({left: -target.data('x')+'px'},horizontalDuration,horizontalEasing,function(){
           showImages();
         });
-      });
-      
-      //current.find('.grid_6').fadeOut();    
-      //target.find('.grid_6').fadeIn();
-      
-      //current.removeClass('active');
-      //target.addClass('active');            
+      });       
     }
     
     function hideImages(){
-      $('.active img, .fadeIn').fadeOut();
+      $('.anim_left img,.anim_right img,.fadeIn').stop().fadeOut();
     }
         
     function showImages(){
       var numEl = $('.active .fadeIn').length;
-      console.log(numEl);
       $('.active .fadeIn').each(function(index){
-        $(this).delay(fadeInDuration*index).fadeIn(fadeInSpeed);
-        console.log(index); 
+        $(this).delay(fadeInDuration*index).fadeIn(fadeInSpeed); 
         $('.active .anim_left').delay(fadeInDuration*numEl).show('slide',{direction:'left',mode:'show',easing:slideInEase},fadeInSpeed);
         $('.active .anim_right').delay(fadeInDuration*numEl).show('slide',{direction:'right',mode:'show',easing:slideInEase},fadeInSpeed);                      
       });      
     }
     
+    function scrollUp(e){
+      target = e.parent().next().children().first();             
+      if(target.length != 0 ){                 
+        changeTo(target,$(e));
+      } else {
+        if(verticalAtEnd=='wrap'){                
+          target = $('#container .row').first().children().first(); 
+          changeTo(target,$(e));
+        }
+      } 
+    }
+    
+    function scrollDown(e){
+      target = e.parent().prev().children().first();                              
+      if(target.length != 0 ){                 
+        changeTo(target,$(e));
+      } else {
+        if(verticalAtEnd=='wrap'){
+          target = $('#container .row').last().children().first(); 
+          changeTo(target,$(e));
+        }                                       
+      }  
+    }
+    
+    function scrollLeft(e){
+      target = e.next();                              
+      if(target.length != 0 )                 
+        changeTo(target,$(e));  
+      else {
+        switch(horizontalAtEnd){
+          case 'stop':
+          break;
+          case 'review':                  
+            target = e.parent().next().children().first();
+            if(target.length != 0 )                 
+              changeTo(target,$(e)); 
+            else {
+              changeTo($('#container .row').first().children().first(),$(e));
+            }
+          break;
+          case 'wrap':
+            target = e.parent().first().children().first();             
+            changeTo(target,$(e));
+          break;
+        }
+      }
+    }
+    
+    function scrollRight(e){
+      target = e.prev();   
+      if(target.length != 0 ){
+        changeTo(target,$(e));  
+      } else {
+        switch(horizontalAtEnd){
+          case 'stop':
+          break;
+          case 'review':
+            target = e.parent().prev().children().last();
+            if(target.length != 0 )                 
+              changeToDesc(target,$(e)); 
+            else {
+              changeToDesc($('#container .row').last().children().last(),$(e));
+            }
+          break;
+          case 'wrap':
+            target = e.parent().first().children().last();             
+            changeTo(target,$(e));
+          break;
+        }          
+      }
+    }
+    /* EVENTS */
+    $('.screen').on('DOMMouseScroll mousewheel', function (e) {
+      if(e.originalEvent.detail > 0 || e.originalEvent.wheelDelta < 0) { //alternative options for wheelData: wheelDeltaX & wheelDeltaY
+        scrollUp(($(e.target)));      
+      } else {        
+        scrollDown($(e.target));
+      }
+      return false;
+    });
+    
     $('.screen').swipe({
         swipe:function(event, direction, distance, duration, fingerCount) {
           switch(direction){
             case 'left':
-              target = this.next();                              
-              if(target.length != 0 )                 
-                changeTo(target,$(this));  
-              else {
-                switch(horizontalAtEnd){
-                  case 'stop':
-                  break;
-                  case 'review':                  
-                    target = this.parent().next().children().first();
-                    if(target.length != 0 )                 
-                      changeTo(target,$(this)); 
-                    else {
-                      changeTo($('#container .row').first().children().first(),$(this));
-                    }
-                  break;
-                  case 'wrap':
-                    target = this.parent().first().children().first();
-                    console.log(target);             
-                    changeTo(target,$(this));
-                  break;
-                }
-              }
+              scrollLeft(this);
             break;
             case 'right':
-              target = this.prev();   
-              if(target.length != 0 ){
-                changeTo(target,$(this));  
-              } else {
-                switch(horizontalAtEnd){
-                  case 'stop':
-                  break;
-                  case 'review':
-                    target = this.parent().prev().children().last();
-                    if(target.length != 0 )                 
-                      changeToDesc(target,$(this)); 
-                    else {
-                      changeToDesc($('#container .row').last().children().last(),$(this));
-                    }
-                  break;
-                  case 'wrap':
-                    target = this.parent().first().children().last();
-                    console.log(target);             
-                    changeTo(target,$(this));
-                  break;
-                }          
-              }
+              scrollRight(this);
             break;
             case 'up':              
-              target = this.parent().next().children().first();             
-              if(target.length != 0 ){                 
-                changeTo(target,$(this));
-              } else {
-                if(verticalAtEnd=='wrap'){                
-                  target = $('#container .row').first().children().first(); 
-                  changeTo(target,$(this));
-                }
-              } 
+              scrollUp(this);
             break;
             case 'down':
-              target = this.parent().prev().children().first();                              
-              if(target.length != 0 ){                 
-                changeTo(target,$(this));
-              } else {
-                if(verticalAtEnd=='wrap'){
-                  target = $('#container .row').last().children().first(); 
-                  changeTo(target,$(this));
-                }                                       
-              }   
+              scrollDown(this); 
             break;            
           }
         }

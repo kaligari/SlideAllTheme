@@ -5,6 +5,8 @@ body {
   -webkit-transform-origin: 0;*/
   overflow: hidden;
   /*overflow-x:hidden;     */
+  font-family: 'Roboto', sans-serif;
+  font-weight: 300;
 }
 p {
   width: 90%;
